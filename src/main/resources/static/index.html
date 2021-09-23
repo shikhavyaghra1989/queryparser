@@ -2,16 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <script src=”https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js” integrity=”sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo” crossorigin=”anonymous”></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="custom.css">
+    <title>Document</title>
 </head>
 <body>
-<table>
-    <tr style="border: black">
-        <td style="border: black">
-            <p>Hi I am query parser</p>
-        </td>
-    </tr>
-</table>
+    <div class="main-container">
+
+        <div class="title">
+            <h1 class="h1 text-center">Database: INSTACART</h1>
+        </div>
+
+        <div class="Process-flow-diagram text-center">
+        <br><a href="#" class="Process-Diagram" style="align-content: center;">Process Flow Diagram</a></br>
+        <br></br>
+        </div>
+
+        <div class="databases-switch-inline text-center">
+            <input class="databases-switch-input" type="radio" name="SwitchOptions" id="SwitchOption1" value="option1">
+            <label class="databases-switch-label" for="SwitchOption1">MySQL server</label>
+
+            <input class="databases-switch-input" type="radio" name="SwitchOptions" id="SwitchOption2" value="option2">
+            <label class="databases-switch-label" for="SwitchOption2">AWS Redshift</label>
+
+        </div>
+
+        <div class="query-input">
+            <br>
+            </br>
+            <div class="form-group">
+                <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Enter your query here." rows="3"></textarea>
+            </div>
+            <br>
+            </br>
+
+        </div>
+
+        <div class="buttons-inline text-center">
+
+            <button type="button" class="btn btn-outline-success btn-lg">Submit</button>
+            <button type="button" class="btn btn-outline-danger btn-lg">Reset</button>
+
+        </div>
+        
+
+    </div>
 </body>
 </html>
