@@ -39,49 +39,59 @@
     </script>
     <title>Document</title>
 </head>
-<body style="background-color:#F4F4F4">
-<div class="main-container">
-
-    <div class="Project-group" style="background-color:black">
+<body >
+<div class="container" style="background-color:#F4F4F4">
+    <div class="Project-group row" style="background-color:black">
         <h1 class="h1 text-center" style="color:#ffffff">CS 527 Project</h1>
         <br>
-        <p class="h6 text-center" style="color:#ffffff">Created by:</p>
-
+        <h4 class="h4 text-center" style="color:#ffffff">Created by</h4>
+        <p class="h6 text-center" style="color:#ffffff">
+            Abhinay Mannepalli(am2977),
+            Nisha Kumari(nk755),
+            Nikhil Panikulangara(npp88),
+            Shikha Vyaghra(sv629),
+            Toshitt Ahuja(ta498),
+            Vaishali Sundar(vs701)
+        </p>
     </div>
 
-    <div class="title">
-        <h1 class="h1 text-center">Database: INSTACART</h1>
-    </div>
-
-    <div class="Process-flow-diagram text-center">
-        <br><a href="#" class="Process-Diagram" style="align-content: center;">Process Flow Diagram</a></br>
-        <br></br>
-    </div>
-
-    <div class="databases-switch-inline text-center">
-        <input class="databases-switch-input" type="radio" name="SwitchOptions" id="SwitchOption1" value="option1">
-        <label class="databases-switch-label" for="SwitchOption1">MySQL server</label>
-
-        <input class="databases-switch-input" type="radio" name="SwitchOptions" id="SwitchOption2" value="option2">
-        <label class="databases-switch-label" for="SwitchOption2">AWS Redshift</label>
-
-    </div>
-
-    <div class="query-input text-center">
-        <br>
-        <div class="form-group">
-            <textarea name="paragraph_text" cols="50" rows="10"  id="query" placeholder="Enter your query here."></textarea>
+    <div class="row">
+        <div style="text-align: center;">
+            <h1 class="h1 text-center title">Query Parser</h1>
         </div>
+
+    </div>
+
+    <div class="row">
+        <div  style="text-align: center;">
+            <a href="#"  style="align-content: center;">Process Flow Diagram</a>
+                <br></br>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div style="text-align: center;">
+            <div class="databases-switch-inline text-center">
+                <input class="databases-switch-input" type="radio" name="SwitchOptions" id="SwitchOption1" value="option1">
+                <label class="databases-switch-label" for="SwitchOption1">MySQL server</label>
+
+                <input class="databases-switch-input" type="radio" name="SwitchOptions" id="SwitchOption2" value="option2">
+                <label class="databases-switch-label" for="SwitchOption2">AWS Redshift</label>
+
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 30px;padding-right: 50px;padding-bottom: 20px;padding-left: 50px;">
+        <textarea name="paragraph_text" cols="50" rows="10"  id="query" placeholder="Enter your query here." ></textarea>
         <br>
     </div>
-
-    <div class="buttons-inline text-center">
-
-        <button type="submit" class="btn btn-success" onclick="submitRequest()">Submit</button>
-        <button type="reset" class="btn btn-warning" onclick="this.blur();">Reset</button>
+    <div class="row" style="padding-top: 10px;padding-right: 50px;padding-bottom: 30px;padding-left: 50px;">
+        <div class="buttons-inline text-center">
+            <button type="submit" class="btn btn-success" onclick="submitRequest()">Submit</button>
+            <button type="reset" class="btn btn-warning" onclick="this.blur();">Reset</button>
+        </div>
     </div>
-
-
 </div>
 
 
