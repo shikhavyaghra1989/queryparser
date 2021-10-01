@@ -15,7 +15,7 @@
 </head>
 <body onload="myFunction()">
     <div class="container" style="background-color:#F4F4F4">
-            <div class="Project-group row" style="background-color:black">
+            <div class="Project-group row" style="background-color:#282C35">
                 <h1 class="h1 text-center" style="color:#ffffff">CS 527 Project</h1>
                 <br>
                 <p class="h6 text-center" style="color:#ffffff">Created by:</p>
@@ -24,24 +24,17 @@
             <div class="row">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8" style="text-align: center;">
-                    <button type="convert-to-json" class="btn btn-secondary" onclick="this.blur();">Convert to JSON</button>
-                    <button type="convert-to-csv" class="btn btn-secondary" onclick="this.blur();">Convert to CSV</button>
-                    <button type="convert-to-xml" class="btn btn-secondary" onclick="this.blur();">Convert to XML</button>
+                    <button type="convert-to-json" class="btn btn-dark" onclick="this.blur();">Convert to JSON</button>
+                    <button type="convert-to-csv" class="btn btn-dark" onclick="this.blur();">Convert to CSV</button>
+                    <button type="convert-to-xml" class="btn btn-dark" onclick="this.blur();">Convert to XML</button>
                 </div>
                 <div class="col-sm-2"></div>
             </div>
-            <div class="row">
-                </br>
-            </div>
-            <div class="row text-center">
-                <p class="h6" style="color:rgb(119, 90, 90)">Time Elasped:- </p>
-            </div>
-            <div class="row">
-                </br>
-            </div>
-            <div class="row">
-                <div class="col-sm-2"></div>
-                <table border="1" class="table table-striped col-sm-8" id="dataTable">
+<!--            <div class="row text-center">-->
+<!--                <p class="h6" style="color:rgb(119, 90, 90)">Time Elasped:- </p>-->
+<!--            </div>-->
+            <div class="row" style="padding-top: 20px;padding-right: 60px;padding-bottom: 20px;padding-left: 60px;">
+                <table border="1" class="table table-bordered table-striped col-sm-8" id="dataTable" style="text-align: center;">
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -84,7 +77,6 @@
                         <td>Thornton</td>
                         <td>@fat</td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
