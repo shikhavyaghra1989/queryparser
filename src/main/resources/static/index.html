@@ -10,30 +10,33 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
-        function press(){
-
-    $.ajax({
-  type: "POST",
-  url: "http://localhost:8080/api/query",
-  data: encodeURIComponent($("textarea").val()),
-
-datatype: "text",
-
-  success: function(data){
-       alert("success")
-
-
-    }
-
-
-});
-}
-
-
-</script>
-
-    
-
+        function submitRequest(){
+            var response_code
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/query",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    query: $("#query").val(),
+                    database: ""
+                 }),
+                statusCode: {
+                    200:function() {
+                      response_code = 200
+                    }
+                },
+                success: function(response){
+                   alert(response_code)
+                   localStorage.setItem( 'response_data', JSON.stringify(response) );
+                   window.location.href="../result.html";
+                },
+                error: function(response) {
+                   console.log(response);
+                }
+            });
+        }
+    </script>
     <title>Document</title>
 </head>
 <body style="background-color:#F4F4F4">
@@ -67,15 +70,15 @@ datatype: "text",
     <div class="query-input text-center">
         <br>
         <div class="form-group">
-            <textarea name="paragraph_text" cols="50" rows="10" placeholder="Enter your query here."></textarea>
+            <textarea name="paragraph_text" cols="50" rows="10"  id="query" placeholder="Enter your query here."></textarea>
         </div>
         <br>
     </div>
 
     <div class="buttons-inline text-center">
 
-        <button type="submit" class="btn btn-outline-success btn-lg" onclick="this.blur();">Submit</button>
-        <button type="reset" class="btn btn-outline-danger btn-lg" onclick="this.blur();">Reset</button>
+        <button type="submit" class="btn btn-success" onclick="submitRequest()">Submit</button>
+        <button type="reset" class="btn btn-warning" onclick="this.blur();">Reset</button>
     </div>
 
 

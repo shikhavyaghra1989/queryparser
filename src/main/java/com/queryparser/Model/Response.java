@@ -2,12 +2,9 @@ package com.queryparser.Model;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.List;
-
 public class Response {
-    private String response;
     private HttpStatus status;
-
+    private String response;
 
     public Response(String response, HttpStatus status) {
         this.response = response;
