@@ -1,27 +1,26 @@
 package com.queryparser.dao;
 
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import com.queryparser.Model.Response;
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-import org.json.simple.*;
-import org.springframework.stereotype.Repository;
 
 @Repository
-public class QueryParserDao {
+public class QueryParserRedshiftDao {
     @Autowired
-    private JdbcTemplate jdbcTemplateMysql;
+    private JdbcTemplate jdbcTemplateRedshift;
 
     public Response executeSelectQuery(String query) {
         List<Map<String, Object>> rows = null;
         String jsonStr = "";
         try {
-            rows = jdbcTemplateMysql.queryForList(query);
+            rows = jdbcTemplateRedshift.queryForList(query);
         } catch (Exception e) {
             jsonStr = e.getCause().getMessage();
             return new Response(jsonStr, HttpStatus.UNPROCESSABLE_ENTITY);
@@ -34,7 +33,7 @@ public class QueryParserDao {
         int rows = 0;
         String response = "";
         try {
-            rows = jdbcTemplateMysql.update(query);
+            rows = jdbcTemplateRedshift.update(query);
         } catch (Exception e) {
              response = e.getCause().getMessage();
             return new Response(response, HttpStatus.UNPROCESSABLE_ENTITY);
@@ -46,7 +45,7 @@ public class QueryParserDao {
     public Response executeDataDefinitionQuery(String query) {
         String response = "";
         try {
-            jdbcTemplateMysql.update(query);
+            jdbcTemplateRedshift.update(query);
         } catch (Exception e) {
             response = e.getCause().getMessage();
             return new Response(response, HttpStatus.UNPROCESSABLE_ENTITY);

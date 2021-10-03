@@ -11,27 +11,25 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
         function submitRequest(){
-            var response_code
-            $.ajax({
+                $.ajax({
                 type: "POST",
                 url: "http://localhost:8080/api/query",
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
                     query: $("#query").val(),
-                    database: ""
+                    database: $("[name='database']:checked").val()
                  }),
-                statusCode: {
-                    200:function() {
-                      response_code = 200
-                    }
-                },
                 success: function(response){
-                   localStorage.setItem( 'response_data', JSON.stringify(response) );
-                   window.location.href="result.html";
+                   if(Array.isArray(response)) {
+                      localStorage.setItem( 'response_data', JSON.stringify(response) );
+                      window.location.href="result.html";
+                   } else {
+                      alert(response)
+                   }
                 },
                 error: function(response) {
-                   console.log(response);
+                   alert(JSON.stringify(response.responseText));
                 }
             });
         }
@@ -41,7 +39,7 @@
 <body >
 <div class="container" style="background-color:#F4F4F4">
     <div class="Project-group row" style="background-color:#282C35">
-        <h1 class="h2 text-center" style="color:#ffffff">CS 527 Project</h1>
+        <h1 class="h2 text-center" style="color:#ffffff">CS 527 Project: Query Parser</h1>
         <h4 class="h4 text-center" style="color:#ffffff">Created by</h4>
         <p class="h6 text-center" style="color:#ffffff">
             Abhinay Mannepalli,
@@ -55,14 +53,16 @@
 
     <div class="row">
         <div style="text-align: center;">
-            <h1 class="h1 text-center title">Query Parser</h1>
+            <h1 class="h1 text-center title"></h1>
         </div>
 
     </div>
 
     <div class="row">
         <div  style="text-align: center;">
-            <a href="#"  style="align-content: center;">Process Flow Diagram</a>
+            <a href="#" target="_blank" rel="noopener noreferrer" style="margin-right: 10px">ER Diagram</a>
+            <a href="#" target="_blank" rel="noopener noreferrer" style="margin-right: 10px">Relational Schema</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">Physical Model</a>
                 <br></br>
         </div>
 
@@ -71,11 +71,11 @@
     <div class="row">
         <div style="text-align: center;">
             <div class="databases-switch-inline text-center">
-                <input class="databases-switch-input" type="radio" name="SwitchOptions" id="SwitchOption1" value="option1">
+                <input class="databases-switch-input" type="radio" name="database" id="SwitchOption1" value="MySQL server" checked>
                 <label class="databases-switch-label" for="SwitchOption1">MySQL server</label>
 
-                <input class="databases-switch-input" type="radio" name="SwitchOptions" id="SwitchOption2" value="option2">
-                <label class="databases-switch-label" for="SwitchOption2">AWS Redshift</label>
+                <input class="databases-switch-input" type="radio" name="database" id="SwitchOption2" value="Redshift" >
+                <label class="databases-switch-label" for="SwitchOption2">Redshift</label>
 
             </div>
         </div>
@@ -83,6 +83,9 @@
     <div class="row" style="padding-top: 30px;padding-right: 50px;padding-bottom: 20px;padding-left: 50px;">
         <textarea name="paragraph_text" cols="50" rows="10"  id="query" placeholder="Enter your query here." ></textarea>
         <br>
+    </div>
+    <div class="row" style="padding-right: 50px;padding-bottom: 5px;padding-left: 50px;">
+        <p>Need to refer query? please check <a href="https://www.w3schools.com/sql/" target="_blank" rel="noopener noreferrer">here</a>.</p>
     </div>
     <div class="row" style="padding-top: 10px;padding-right: 50px;padding-bottom: 30px;padding-left: 50px;">
         <div class="buttons-inline text-center">
