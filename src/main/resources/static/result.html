@@ -4,29 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
-
-    </script>
+    <script
+            src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" ></script>
     <title>Document</title>
-    <style>
-        th, td, p, input, h3 {
-            font:15px 'Segoe UI';
-        }
-        table, th, td {
-            border: solid 1px #ddd;
-            border-collapse: collapse;
-            padding: 2px 3px;
-            text-align: center;
-        }
-        th {
-            font-weight:bold;
-        }
-    </style>
+
     <script>
+
 		  function myFunction() {
 			 var data1 = localStorage.getItem("response_data");
 			 localStorage.clear(); //clean the localstorage
@@ -34,6 +29,7 @@
 
             var col = [];
             for (var i = 0; i <data.length; i++) {
+
                 for (var key in data[i]) {
                     if (col.indexOf(key) === -1) {
                         col.push(key);
@@ -41,20 +37,29 @@
                 }
             }
 
+
             // Create a table.
-            var table = document.createElement("table");
+            var table = document.getElementById("dataTable");
+
+
+
 
             // Create table header row using the extracted headers above.
             var tr = table.insertRow(-1);                   // table row.
 
             for (var i = 0; i < col.length; i++) {
                 var th = document.createElement("th");      // table header.
+
                 th.innerHTML = col[i];
                 tr.appendChild(th);
             }
+            document.getElementById("dThead").appendChild(tr);
+
+            var tableBody = document.getElementById('dataTableBody');
 
             // add json data to the table as rows.
             for (var i = 0; i < data.length; i++) {
+
 
                 tr = table.insertRow(-1);
 
@@ -62,15 +67,24 @@
                     var tabCell = tr.insertCell(-1);
                     tabCell.innerHTML = data[i][col[j]];
                 }
+                tableBody.appendChild(tr);
+
             }
 
             // Now, add the newly created table with json data, to a container.
             var divShowData = document.getElementById('showData');
             divShowData.innerHTML = "";
             divShowData.appendChild(table);
+            $("#dataTable").dataTable();
+
 
 
         }
+
+
+
+
+
 
 
  </script>
@@ -98,61 +112,35 @@
         </div>
         <div class="col-sm-2"></div>
     </div>
-    <!--            <div class="row text-center">-->
-    <!--                <p class="h6" style="color:rgb(119, 90, 90)">Time Elasped:- </p>-->
-    <!--            </div>-->
-<!--    <div class="row" style="padding-top: 20px;padding-right: 60px;padding-bottom: 20px;padding-left: 60px;">-->
-<!--        <table border="1" class="table table-bordered table-striped col-sm-8" id="dataTable"-->
-<!--               style="text-align: center;">-->
-<!--            <thead class="thead-dark">-->
-<!--            <tr>-->
-<!--                <th scope="col">#</th>-->
-<!--                <th scope="col">First</th>-->
-<!--                <th scope="col">Last</th>-->
-<!--                <th scope="col">Handle</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody>-->
-<!--            <tr>-->
-<!--                <th scope="row">1</th>-->
-<!--                <td>Mark</td>-->
-<!--                <td>Otto</td>-->
-<!--                <td>@mdo</td>-->
-<!--            </tr>-->
-<!--            <tr>-->
-<!--                <th scope="row">2</th>-->
-<!--                <td>Jacob</td>-->
-<!--                <td>Thornton</td>-->
-<!--                <td>@fat</td>-->
-<!--            </tr>-->
+    <br>
+    <br>
 
-<!--            <tr>-->
-<!--                <th scope="row">2</th>-->
-<!--                <td>Jacob</td>-->
-<!--                <td>Thornton</td>-->
-<!--                <td>@fat</td>-->
-<!--            </tr>-->
 
-<!--            <tr>-->
-<!--                <th scope="row">2</th>-->
-<!--                <td>Jacob</td>-->
-<!--                <td>Thornton</td>-->
-<!--                <td>@fat</td>-->
-<!--            </tr>-->
 
-<!--            <tr>-->
-<!--                <th scope="row">2</th>-->
-<!--                <td>Jacob</td>-->
-<!--                <td>Thornton</td>-->
-<!--                <td>@fat</td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--        </table>-->
-<!--    </div>-->
-<!--    <div class="col-sm-2"></div>-->
+                <div class="row text-center">
+
+                    <p class="h6" style="color:rgb(119, 90, 90)">Time Elapsed:- </p>
+                    <p id="demo"></p>
+                </div>
+    <div class="row" style="padding-top: 20px;padding-right: 60px;padding-bottom: 20px;padding-left: 60px;">
+        <table border="1" class="table table-bordered table-striped col-sm-15" id="dataTable"
+               style="text-align: center;">
+            <thead class="thead-dark" id = "dThead"></thead>
+
+            <tbody id ="dataTableBody"></tbody>
+
+        </table>
+    </div>
+    <div class="col-sm-2"></div>
     <p id='showData'></p>
 
     <p id='msg'></p>
 </div>
+
+<script>
+    $(document).ready( function () {
+<!--    $('#dataTable').DataTable();-->
+} );
+    </script>
 </body>
 </html>
