@@ -80,14 +80,34 @@
 
 
         }
-
-
-
-
-
-
-
+	    
  </script>
+	
+      <script script type="text/javascript">
+        function JSONconvertor(){
+              var d = localStorage.getItem("response_data");
+              localStorage.clear();
+              var b1 = JSON.parse(d);
+
+              let filename = "export.json";
+              let contentType = "application/json;charset=utf-8;";
+             if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                    var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(b1)))], { type: contentType });
+                    navigator.msSaveOrOpenBlob(blob, filename);
+                 } else
+                 {
+                    var a = document.createElement('a');
+                    a.download = filename;
+                    a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(b1));
+                    a.target = '_blank';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+    }
+        }
+
+    </script>
+	
 </head>
 <body onload="myFunction()">
 <div class="container" style="background-color:#F4F4F4">
