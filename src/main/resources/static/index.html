@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="http://codemirror.net/lib/codemirror.css">
+    <link rel="stylesheet" href="http://codemirror.net/addon/hint/show-hint.css">
+    <script src="http://codemirror.net/lib/codemirror.js"></script>
+    <script src="http://codemirror.net/addon/edit/matchbrackets.js"></script>
+    <script src="http://codemirror.net/mode/sql/sql.js"></script>
+    <script src="http://codemirror.net/addon/hint/show-hint.js"></script>
+    <script src="http://codemirror.net/addon/hint/sql-hint.js"></script>
     <script>
         function submitRequest(){
                 $.ajax({
@@ -80,6 +87,24 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+    <textarea name ='query'  id='query' rows = 4 cols= 50 ></textarea>
+    <script>
+       var query = CodeMirror.fromTextArea(
+           document.getElementById('query'),{
+               mode: "text/x-mysql",
+               lineNumbers: true,
+               indentWithTabs: true,
+               smartIndent: true,
+               lineNumbers: true,
+               matchBrackets : true,
+               autofocus: true,
+               extraKeys: {"Ctrl-Space": "autocomplete"}
+           });
+   </script>
+    </div>
+    
     <div class="row" style="padding-top: 30px;padding-right: 50px;padding-bottom: 20px;padding-left: 50px;">
         <textarea name="paragraph_text" cols="50" rows="10"  id="query" placeholder="Enter your query here." ></textarea>
         <br>
