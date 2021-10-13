@@ -119,6 +119,54 @@
         }
 
  </script>
+	 <script type="text/javascript" src="xml2json.js"></script>
+        <script type="text/javascript" src="vkBeautify.js"></script>
+        <script type="text/javascript">
+
+            function xmlconvertor(b2) {
+
+
+            var x2js = new X2JS();
+            var new_xml = x2js.json2xml_str(b2);
+
+            var pretty_xml = vkbeautify.xml(new_xml, 4);
+
+
+            var str_xml = pretty_xml;
+            var str_data = "data:text/xml;charset=utf-8," + encodeURIComponent(str_xml);
+
+            var anchor = document.createElement('a');
+            anchor.setAttribute("href", str_data);
+            anchor.setAttribute("download", "json2xml.xml");
+            anchor.click();
+            anchor.remove();
+        }
+        </script>
+    <script>
+        function getXMLFile() {
+            var query = localStorage.getItem("query");
+            var database = localStorage.getItem("database");
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/query",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    query: query,
+                    database: database
+                }),
+                success: function(response){
+                    if(Array.isArray(response)) {
+                        xmlconvertor(response)
+                    }
+                },
+                error: function(response) {
+                    alert(JSON.stringify(response.responseText));
+                }
+            });
+        }
+
+        </script>
 </head>
 <body onload="myFunction()">
 <div class="container" style="background-color:#F4F4F4">
@@ -139,7 +187,7 @@
         <div class="col-sm-8" style="text-align: center;">
             <button type="convert-to-json" class="btn btn-dark" onclick="getJsonFile()">Convert to JSON</button>
             <button type="convert-to-csv" class="btn btn-dark" onclick="this.blur();">Convert to CSV</button>
-            <button type="convert-to-xml" class="btn btn-dark" onclick="this.blur();">Convert to XML</button>
+            <button type="convert-to-xml" class="btn btn-dark" onclick="getXMLFile()">Convert to XML</button>
         </div>
         <div class="col-sm-2"></div>
         </div>
