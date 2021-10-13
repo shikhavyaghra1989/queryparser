@@ -21,71 +21,102 @@
     <title>Document</title>
 
     <script>
-
+          var startTime, endTime, mseconds;
 		  function myFunction() {
-			 var data1 = localStorage.getItem("response_data");
-			 localStorage.clear(); //clean the localstorage
-			 var data = JSON.parse(data1)
+		        startTime = new Date().getTime();
+                var data1 = localStorage.getItem("response_data");
+                localStorage.removeItem("response_data");
+                var data = JSON.parse(data1)
+                var col = [];
+                for (var i = 0; i <data.length; i++) {
 
-            var col = [];
-            for (var i = 0; i <data.length; i++) {
-
-                for (var key in data[i]) {
-                    if (col.indexOf(key) === -1) {
-                        col.push(key);
+                    for (var key in data[i]) {
+                        if (col.indexOf(key) === -1) {
+                            col.push(key);
+                        }
                     }
                 }
-            }
+                // Create a table.
+                var table = document.getElementById("dataTable");
+                // Create table header row using the extracted headers above.
+                var tr = table.insertRow(-1);                   // table row.
 
+                for (var i = 0; i < col.length; i++) {
+                    var th = document.createElement("th");      // table header.
 
-            // Create a table.
-            var table = document.getElementById("dataTable");
-
-
-
-
-            // Create table header row using the extracted headers above.
-            var tr = table.insertRow(-1);                   // table row.
-
-            for (var i = 0; i < col.length; i++) {
-                var th = document.createElement("th");      // table header.
-
-                th.innerHTML = col[i];
-                tr.appendChild(th);
-            }
-            document.getElementById("dThead").appendChild(tr);
-
-            var tableBody = document.getElementById('dataTableBody');
-
-            // add json data to the table as rows.
-            for (var i = 0; i < data.length; i++) {
-
-
-                tr = table.insertRow(-1);
-
-                for (var j = 0; j < col.length; j++) {
-                    var tabCell = tr.insertCell(-1);
-                    tabCell.innerHTML = data[i][col[j]];
+                    th.innerHTML = col[i];
+                    tr.appendChild(th);
                 }
-                tableBody.appendChild(tr);
+                document.getElementById("dThead").appendChild(tr);
 
-            }
+                var tableBody = document.getElementById('dataTableBody');
 
-            // Now, add the newly created table with json data, to a container.
-            var divShowData = document.getElementById('showData');
-            divShowData.innerHTML = "";
-            divShowData.appendChild(table);
-            $("#dataTable").dataTable();
+                // add json data to the table as rows.
+                for (var i = 0; i < data.length; i++) {
 
 
+                    tr = table.insertRow(-1);
 
+                    for (var j = 0; j < col.length; j++) {
+                        var tabCell = tr.insertCell(-1);
+                        tabCell.innerHTML = data[i][col[j]];
+                    }
+                    tableBody.appendChild(tr);
+
+                }
+
+                // Now, add the newly created table with json data, to a container.
+                var divShowData = document.getElementById('showData');
+                divShowData.innerHTML = "";
+                divShowData.appendChild(table);
+                $("#dataTable").dataTable();
+                endTime = new Date().getTime();
+                var timeDiff = endTime-startTime;
+                mseconds = Math.round(timeDiff);
+                document.getElementById("demo").innerHTML+= mseconds+"msec";
+        }
+    </script>
+    <script>
+        function getJsonFile() {
+            var query = localStorage.getItem("query");
+            var database = localStorage.getItem("database");
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/query",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    query: query,
+                    database: database
+                 }),
+                success: function(response){
+                   if(Array.isArray(response)) {
+                        JSONconvertor(response)
+                   }
+                },
+                error: function(response) {
+                   alert(JSON.stringify(response.responseText));
+                }
+            });
         }
 
-
-
-
-
-
+        function JSONconvertor(b1){
+              let filename = "QueriedData.json";
+              let contentType = "application/json;charset=utf-8;";
+             if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                    var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(b1)))], { type: contentType });
+                    navigator.msSaveOrOpenBlob(blob, filename);
+                 } else
+                 {
+                    var a = document.createElement('a');
+                    a.download = filename;
+                    a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(b1));
+                    a.target = '_blank';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+             }
+        }
 
  </script>
 </head>
@@ -106,41 +137,30 @@
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8" style="text-align: center;">
-            <button type="convert-to-json" class="btn btn-dark" onclick="this.blur();">Convert to JSON</button>
+            <button type="convert-to-json" class="btn btn-dark" onclick="getJsonFile()">Convert to JSON</button>
             <button type="convert-to-csv" class="btn btn-dark" onclick="this.blur();">Convert to CSV</button>
             <button type="convert-to-xml" class="btn btn-dark" onclick="this.blur();">Convert to XML</button>
         </div>
         <div class="col-sm-2"></div>
-    </div>
-    <br>
-    <br>
+        </div>
+        <div class="row text-center">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <p class="h6" style="color:rgb(119, 90, 90)">Time Elapsed:- <p id="demo"></p></p>
+            </div>
+        </div>
+        <div class="row" style="padding-right: 60px;padding-bottom: 20px;padding-left: 60px;">
+            <table border="1" class="table table-bordered table-striped col-sm-15" id="dataTable"
+                   style="text-align: center;">
+                <thead class="thead-dark" id = "dThead"></thead>
 
+                <tbody id ="dataTableBody"></tbody>
 
-
-                <div class="row text-center">
-
-                    <p class="h6" style="color:rgb(119, 90, 90)">Time Elapsed:- </p>
-                    <p id="demo"></p>
-                </div>
-    <div class="row" style="padding-top: 20px;padding-right: 60px;padding-bottom: 20px;padding-left: 60px;">
-        <table border="1" class="table table-bordered table-striped col-sm-15" id="dataTable"
-               style="text-align: center;">
-            <thead class="thead-dark" id = "dThead"></thead>
-
-            <tbody id ="dataTableBody"></tbody>
-
-        </table>
-    </div>
-    <div class="col-sm-2"></div>
-    <p id='showData'></p>
-
-    <p id='msg'></p>
-</div>
-
-<script>
-    $(document).ready( function () {
-<!--    $('#dataTable').DataTable();-->
-} );
-    </script>
+            </table>
+        </div>
+        <div class="col-sm-2"></div>
+            <p id='showData'></p>
+            <p id='msg'></p>
+        </div>
 </body>
 </html>

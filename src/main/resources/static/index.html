@@ -18,8 +18,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
         function submitRequest(){
-
-<!--                alert(query.getValue());-->
+                localStorage.setItem('query', $("#query").val());
+                localStorage.setItem('database', $("[name='database']:checked").val());
                 $.ajax({
                 type: "POST",
                 url: "http://localhost:8080/api/query",
@@ -31,8 +31,14 @@
                  }),
                 success: function(response){
                    if(Array.isArray(response)) {
-                      localStorage.setItem( 'response_data', JSON.stringify(response) );
-                      window.location.href="result.html";
+                        if(response.length > 10000){
+                            const new_array  = response.slice(0, 10000)
+                            localStorage.setItem( 'response_data', JSON.stringify(new_array) );
+                        }
+                        else {
+                             localStorage.setItem( 'response_data', JSON.stringify(response) );
+                        }
+                        window.location.href="result.html";
                    } else {
                       alert(response)
                    }
