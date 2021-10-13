@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<b>
+CREATE TABLE departments</br>
+(</br>
+department_id INT NOT NULL,</br>
+department INT NOT NULL,</br>
+PRIMARY KEY (department_id)</br>
+);</br>
+</br>
+CREATE TABLE users</br>
+(</br>
+user_id INT NOT NULL,</br>
+PRIMARY KEY (user_id)</br>
+);</br>
+</br>
+CREATE TABLE orders</br>
+(</br>
+order_id INT NOT NULL,</br>
+user_id INT NOT NULL,</br>
+order_dow INT NOT NULL,</br>
+order_number INT NOT NULL,</br>
+order_hour_of_day INT NOT NULL,</br>
+days_since_prior_order INT NOT NULL,</br>
+user_id INT NOT NULL,</br>
+PRIMARY KEY (order_id),</br>
+FOREIGN KEY (user_id) REFERENCES users(user_id)</br>
+);</br>
+</br>
+CREATE TABLE aisles</br>
+(</br>
+department_id INT NOT NULL,</br>
+aisle_id INT NOT NULL,</br>
+aisle INT NOT NULL,</br>
+department_id INT NOT NULL,</br>
+PRIMARY KEY (aisle_id),</br>
+FOREIGN KEY (department_id) REFERENCES departments(department_id)</br>
+);</br>
+</br>
+CREATE TABLE products</br>
+(</br>
+product_id INT NOT NULL,</br>
+product_name INT NOT NULL,</br>
+aisle_id INT NOT NULL,</br>
+aisle_id INT NOT NULL,</br>
+PRIMARY KEY (product_id),</br>
+FOREIGN KEY (aisle_id) REFERENCES aisles(aisle_id)</br>
+);</br>
+</br>
+CREATE TABLE order_products</br>
+(</br>
+order_id INT NOT NULL,</br>
+product_id INT NOT NULL,</br>
+add_to_cart_order INT NOT NULL,</br>
+reordered INT NOT NULL,</br>
+order_id INT NOT NULL,</br>
+product_id INT NOT NULL,</br>
+PRIMARY KEY (order_id),</br>
+FOREIGN KEY (order_id) REFERENCES orders(order_id),</br>
+FOREIGN KEY (product_id) REFERENCES products(product_id),</br>
+UNIQUE (order_id, product_id)</br>
+    );</b>
+
+</body>
+</html>
