@@ -117,7 +117,72 @@
                     document.body.removeChild(a);
              }
         }
+    function csvFile() {
+            var query = localStorage.getItem("query");
+            var database = localStorage.getItem("database");
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/query",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    query: query,
+                    database: database
+                 }),
+                success: function(response){
+                   if(Array.isArray(response)) {
+                        JSONToCSVConvertor(response, "executed", true);
+                   }
+                },
+                error: function(response) {
+                   alert(JSON.stringify(response.responseText));
+                }
+            });
+        }
+        function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
+          //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+          var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
 
+          var CSV = 'sep=,' + '\r\n\n';
+
+          if (ShowLabel) {
+            var row = "";
+
+            for (var index in arrData[0]) {
+              row += index + ',';
+            }
+
+            row = row.slice(0, -1);
+
+            CSV += row + '\r\n';
+          }
+          for (var i = 0; i < arrData.length; i++) {
+            var row = "";
+            for (var index in arrData[i]) {
+              row += '"' + arrData[i][index] + '",';
+            }
+
+            row.slice(0, row.length - 1);
+
+            //add a line break after each row
+            CSV += row + '\r\n';
+          }
+
+          if (CSV == '') {
+            alert("Invalid data");
+            return;
+          }
+          var fileName = "Excel_";
+          fileName += ReportTitle.replace(/ /g, "_");
+          var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+          var link = document.createElement("a");
+          link.href = uri;
+          link.style = "visibility:hidden";
+          link.download = fileName + ".csv";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }    
  </script>
 </head>
 <body onload="myFunction()">
@@ -138,7 +203,7 @@
         <div class="col-sm-2"></div>
         <div class="col-sm-8" style="text-align: center;">
             <button type="convert-to-json" class="btn btn-dark" onclick="getJsonFile()">Convert to JSON</button>
-            <button type="convert-to-csv" class="btn btn-dark" onclick="this.blur();">Convert to CSV</button>
+            <button type="convert-to-csv" class="btn btn-dark" onclick="csvFile()">Convert to CSV</button>
             <button type="convert-to-xml" class="btn btn-dark" onclick="this.blur();">Convert to XML</button>
         </div>
         <div class="col-sm-2"></div>
