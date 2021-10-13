@@ -25,7 +25,7 @@
 		  function myFunction() {
 		        startTime = new Date().getTime();
                 var data1 = localStorage.getItem("response_data");
-                localStorage.clear(); //clean the localstorage
+                localStorage.removeItem("response_data");
                 var data = JSON.parse(data1)
                 var col = [];
                 for (var i = 0; i <data.length; i++) {
@@ -75,6 +75,48 @@
                 mseconds = Math.round(timeDiff);
                 document.getElementById("demo").innerHTML+= mseconds+"msec";
         }
+    </script>
+    <script>
+        function getJsonFile() {
+            var query = localStorage.getItem("query");
+            var database = localStorage.getItem("database");
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/query",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({
+                    query: query,
+                    database: database
+                 }),
+                success: function(response){
+                   if(Array.isArray(response)) {
+                        JSONconvertor(response)
+                   }
+                },
+                error: function(response) {
+                   alert(JSON.stringify(response.responseText));
+                }
+            });
+        }
+
+        function JSONconvertor(b1){
+              let filename = "QueriedData.json";
+              let contentType = "application/json;charset=utf-8;";
+             if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                    var blob = new Blob([decodeURIComponent(encodeURI(JSON.stringify(b1)))], { type: contentType });
+                    navigator.msSaveOrOpenBlob(blob, filename);
+                 } else
+                 {
+                    var a = document.createElement('a');
+                    a.download = filename;
+                    a.href = 'data:' + contentType + ',' + encodeURIComponent(JSON.stringify(b1));
+                    a.target = '_blank';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+             }
+        }
 
  </script>
 </head>
@@ -95,7 +137,7 @@
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8" style="text-align: center;">
-            <button type="convert-to-json" class="btn btn-dark" onclick="this.blur();">Convert to JSON</button>
+            <button type="convert-to-json" class="btn btn-dark" onclick="getJsonFile()">Convert to JSON</button>
             <button type="convert-to-csv" class="btn btn-dark" onclick="this.blur();">Convert to CSV</button>
             <button type="convert-to-xml" class="btn btn-dark" onclick="this.blur();">Convert to XML</button>
         </div>
