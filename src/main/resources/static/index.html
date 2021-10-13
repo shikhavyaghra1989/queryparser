@@ -7,20 +7,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://codemirror.net/lib/codemirror.css">
+    <link rel="stylesheet" href="http://codemirror.net/addon/hint/show-hint.css">
+    <script src="http://codemirror.net/lib/codemirror.js"></script>
+    <script src="http://codemirror.net/addon/edit/matchbrackets.js"></script>
+    <script src="http://codemirror.net/mode/sql/sql.js"></script>
+    <script src="http://codemirror.net/addon/hint/show-hint.js"></script>
+    <script src="http://codemirror.net/addon/hint/sql-hint.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
         function submitRequest(){
-                localStorage.setItem('query', $("#query").val());
+                localStorage.setItem('query', query.getValue());
                 localStorage.setItem('database', $("[name='database']:checked").val());
-
                 $.ajax({
                 type: "POST",
                 url: "http://localhost:8080/api/query",
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify({
-                    query: $("#query").val(),
+                    query: query.getValue(),
                     database: $("[name='database']:checked").val()
                  }),
                 success: function(response){
@@ -89,12 +95,25 @@
             </div>
         </div>
     </div>
-    <div class="row" style="padding-top: 30px;padding-right: 50px;padding-bottom: 20px;padding-left: 50px;">
-        <textarea name="paragraph_text" cols="50" rows="10"  id="query" placeholder="Enter your query here." ></textarea>
-        <br>
+
+    <div class="row">
+    <textarea name ='query'  id='query' rows = 4 cols= 50 ></textarea>
+    <script>
+       var query = CodeMirror.fromTextArea(
+           document.getElementById('query'),{
+               mode: "text/x-mysql",
+               lineNumbers: true,
+               indentWithTabs: true,
+               smartIndent: true,
+               lineNumbers: true,
+               matchBrackets : true,
+               autofocus: true,
+               extraKeys: {"Ctrl-Space": "autocomplete"}
+           });
+   </script>
     </div>
-    <div class="row" style="padding-right: 50px;padding-bottom: 5px;padding-left: 50px;">
-        <p>Need to refer query? please check <a href="https://www.w3schools.com/sql/" target="_blank" rel="noopener noreferrer">here</a>.</p>
+    <div class="row" style="padding-right: 50px;padding-bottom: 5px;padding-left: 50px;" text-align="center">
+        <p >Need to refer query? please check <a href="https://www.w3schools.com/sql/" target="_blank" rel="noopener noreferrer">here</a>.</p>
     </div>
     <div class="row" style="padding-top: 10px;padding-right: 50px;padding-bottom: 30px;padding-left: 50px;">
         <div class="buttons-inline text-center">
