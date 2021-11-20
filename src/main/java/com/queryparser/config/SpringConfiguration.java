@@ -40,6 +40,15 @@ public class SpringConfiguration {
     }
 
     @Bean
+    public DataSource mongoDbDataSource()
+    {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-classname"));
+        dataSource.setUrl(environment.getProperty("spring.mongoDbDatasource.url"));
+        return dataSource;
+    }
+
+    @Bean
     public JdbcTemplate jdbcTemplateMysql(@Qualifier("mysqlDataSource") DataSource ds)
     {
         return new JdbcTemplate(ds);
@@ -47,6 +56,12 @@ public class SpringConfiguration {
 
     @Bean
     public JdbcTemplate jdbcTemplateRedshift(@Qualifier("redshiftDataSource") DataSource ds)
+    {
+        return new JdbcTemplate(ds);
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplateMongoDb(@Qualifier("mongoDbDataSource") DataSource ds)
     {
         return new JdbcTemplate(ds);
     }
