@@ -57,6 +57,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/resources/redshift-1.1.10.1010.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>org.cdata.connectors</groupId>
+			<artifactId>cdata-mongodb-connector</artifactId>
+			<version>19</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/mongodb.jar</systemPath>
+		</dependency>
 
 	</dependencies>
 

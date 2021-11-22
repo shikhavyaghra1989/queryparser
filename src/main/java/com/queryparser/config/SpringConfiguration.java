@@ -43,7 +43,7 @@ public class SpringConfiguration {
     public DataSource mongoDbDataSource()
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-classname"));
+//        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-classname"));
         dataSource.setUrl(environment.getProperty("spring.mongoDbDatasource.url"));
         return dataSource;
     }
