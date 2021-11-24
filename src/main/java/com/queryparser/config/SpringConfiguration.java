@@ -1,5 +1,7 @@
 package com.queryparser.config;
 
+import ch.qos.logback.classic.BasicConfigurator;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -42,8 +44,8 @@ public class SpringConfiguration {
     @Bean
     public DataSource mongoDbDataSource()
     {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-classname"));
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-classname"));
         dataSource.setUrl(environment.getProperty("spring.mongoDbDatasource.url"));
         return dataSource;
     }
@@ -56,12 +58,6 @@ public class SpringConfiguration {
 
     @Bean
     public JdbcTemplate jdbcTemplateRedshift(@Qualifier("redshiftDataSource") DataSource ds)
-    {
-        return new JdbcTemplate(ds);
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplateMongoDb(@Qualifier("mongoDbDataSource") DataSource ds)
     {
         return new JdbcTemplate(ds);
     }

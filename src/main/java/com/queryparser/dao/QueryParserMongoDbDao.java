@@ -1,6 +1,10 @@
 package com.queryparser.dao;
 
 import com.queryparser.Model.Response;
+import org.apache.camel.CamelContext;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.support.SimpleRegistry;
 import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,43 +17,27 @@ import java.util.Map;
 @Repository
 public class QueryParserMongoDbDao {
     @Autowired
-    private JdbcTemplate jdbcTemplateMongoDb;
+    private JdbcTemplate mongoDbDataSource;
 
-    public Response executeSelectQuery(String query) {
-        List<Map<String, Object>> rows = null;
+    public Response executeSelectQuery(String query) throws Exception {
+        SimpleRegistry reg = new SimpleRegistry();
+        reg.bind("myDataSource", mongoDbDataSource);
+
+        CamelContext context = new DefaultCamelContext(reg);
         String jsonStr = "";
-        try {
-            rows = jdbcTemplateMongoDb.queryForList(query);
-        } catch (Exception e) {
-            jsonStr = e.getCause().getMessage();
-            return new Response(jsonStr, HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-        jsonStr = JSONArray.toJSONString(rows);
+        context.addRoutes(new RouteBuilder() {
+            @Override
+            public void configure() {
+                from("timer://foo?repeatCount=1")
+                        .setBody(constant("SELECT * FROM TABLE"))
+                        .to("jdbc:myDataSource")
+                        .marshal().json(true).to(jsonStr);
+            }
+        });
+
+        context.start();
+        Thread.sleep(10000);
+        context.stop();
         return new Response(jsonStr, HttpStatus.OK);
-    }
-
-    public Response executeDataManipulationQuery(String query) {
-        int rows = 0;
-        String response = "";
-        try {
-            rows = jdbcTemplateMongoDb.update(query);
-        } catch (Exception e) {
-             response = e.getCause().getMessage();
-            return new Response(response, HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-        response = rows + "rows affected";
-        return new Response(response, HttpStatus.OK);
-    }
-
-    public Response executeDataDefinitionQuery(String query) {
-        String response = "";
-        try {
-            jdbcTemplateMongoDb.update(query);
-        } catch (Exception e) {
-            response = e.getCause().getMessage();
-            return new Response(response, HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-        response =  "Query has been executed successfully";
-        return new Response(response, HttpStatus.OK);
     }
 }

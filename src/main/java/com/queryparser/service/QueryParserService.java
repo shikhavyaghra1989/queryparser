@@ -23,7 +23,7 @@ public class QueryParserService {
     @Autowired
     private QueryParserMongoDbDao mongoDbDao;
 
-    public Response executeSelectQuery(QueryRequest request) {
+    public Response executeSelectQuery(QueryRequest request) throws Exception {
         if(request.getDatabase().equals("MySQL server")) {
             return dao.executeSelectQuery(request.getQuery());
         } else if(request.getDatabase().equals("MongoDB")){
@@ -36,8 +36,6 @@ public class QueryParserService {
     public Response executeDataManipulationQuery(QueryRequest request) {
         if(request.getDatabase().equals("MySQL server")) {
             return dao.executeDataManipulationQuery(request.getQuery());
-        } else if(request.getDatabase().equals("MongoDB")){
-            return mongoDbDao.executeDataManipulationQuery(request.getQuery());
         } else {
             return redshiftDao.executeDataManipulationQuery(request.getQuery());
         }
@@ -46,8 +44,6 @@ public class QueryParserService {
     public Response executeDataDefinitionQuery(QueryRequest request) {
         if(request.getDatabase().equals("MySQL server")) {
             return dao.executeDataDefinitionQuery(request.getQuery());
-        } else if(request.getDatabase().equals("MongoDB")){
-            return mongoDbDao.executeDataDefinitionQuery(request.getQuery());
         } else {
             return redshiftDao.executeDataDefinitionQuery(request.getQuery());
         }

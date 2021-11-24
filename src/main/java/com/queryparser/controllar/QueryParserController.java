@@ -50,6 +50,9 @@ public class QueryParserController {
             }
         } catch (NoSuchElementException e) {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-}
+    }
 }
