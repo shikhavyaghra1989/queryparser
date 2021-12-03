@@ -1,7 +1,7 @@
 package com.queryparser.config;
 
-import ch.qos.logback.classic.BasicConfigurator;
-import org.apache.commons.dbcp2.BasicDataSource;
+//import ch.qos.logback.classic.BasicConfigurator;
+//import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -24,9 +24,20 @@ public class SpringConfiguration {
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
        // dataSource.setDriverClassName(environment.getProperty("spring.datasource1.driver-class-name"));
-        dataSource.setUrl(environment.getProperty("spring.datasource.url"));
+        dataSource.setUrl(environment.getProperty("spring.datasource.instacart.url"));
         dataSource.setUsername(environment.getProperty("spring.datasource.username"));
         dataSource.setPassword(environment.getProperty("spring.datasource.password"));
+        return dataSource;
+    }
+
+    @Bean
+    public DataSource mysqlAdniDataSource()
+    {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
+        dataSource.setUrl(environment.getProperty("spring.datasource.adnimerge.url"));
+        dataSource.setUsername(environment.getProperty("spring.secondDatasource.username"));
+        dataSource.setPassword(environment.getProperty("spring.secondDatasource.password"));
         return dataSource;
     }
 
@@ -41,17 +52,34 @@ public class SpringConfiguration {
         return dataSource;
     }
 
-    @Bean
-    public DataSource mongoDbDataSource()
-    {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-classname"));
-        dataSource.setUrl(environment.getProperty("spring.mongoDbDatasource.url"));
-        return dataSource;
-    }
+//    @Bean
+//    public DataSource redshiftAdniDataSource()
+//    {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(environment.getProperty("spring.Adni.Redshift.Datasource.url"));
+//        dataSource.setUrl(environment.getProperty("spring.secondDatasource.url"));
+//        dataSource.setUsername(environment.getProperty("spring.secondDatasource.username"));
+//        dataSource.setPassword(environment.getProperty("spring.secondDatasource.password"));
+//        return dataSource;
+//    }
+
+//    @Bean
+//    public DataSource mongoDbDataSource()
+//    {
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-classname"));
+//        dataSource.setUrl(environment.getProperty("spring.mongoDbDatasource.url"));
+//        return dataSource;
+//    }
 
     @Bean
     public JdbcTemplate jdbcTemplateMysql(@Qualifier("mysqlDataSource") DataSource ds)
+    {
+        return new JdbcTemplate(ds);
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplateAdniMysql(@Qualifier("mysqlAdniDataSource") DataSource ds)
     {
         return new JdbcTemplate(ds);
     }
@@ -61,6 +89,19 @@ public class SpringConfiguration {
     {
         return new JdbcTemplate(ds);
     }
+
+//    @Bean
+//    public JdbcTemplate jdbcTemplateAdniRedshift(@Qualifier("redshiftAdniDataSource") DataSource ds)
+//    {
+//        return new JdbcTemplate(ds);
+//    }
+
+//    @Bean
+//    public DataSource jdbcTemplateMongoDb(@Qualifier("mongoDbDataSource") DataSource ds)
+//    {
+//        return ds;
+//    }
+
 
 
 }
