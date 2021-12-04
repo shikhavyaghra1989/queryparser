@@ -32,7 +32,8 @@ public class QueryParserController {
                 System.out.println("In first if");
                 Response result = service.executeSelectQuery(request);
                 return new ResponseEntity<>(result.getResponse(),result.getStatus());
-            } else if(list[0].equals(QueryType.UPDATE.getKey()) || list[0].equals(QueryType.UPDATE.getValue())
+            }
+            else if(list[0].equals(QueryType.UPDATE.getKey()) || list[0].equals(QueryType.UPDATE.getValue())
                         || list[0].equals(QueryType.DELETE.getKey()) || list[0].equals(QueryType.DELETE.getValue())
                         || list[0].equals(QueryType.INSERT.getKey()) || list[0].equals(QueryType.INSERT.getValue())){
                 System.out.println("In second if");
@@ -44,12 +45,16 @@ public class QueryParserController {
                 System.out.println("In third if");
                 Response result = service.executeDataDefinitionQuery(request);
                 return new ResponseEntity<>(result.getResponse(),result.getStatus());
-            } else  {
+            }
+            else  {
                 System.out.println("In else");
                 return new ResponseEntity<>("This request can not be processed. Please verify your query",HttpStatus.BAD_REQUEST);
             }
         } catch (NoSuchElementException e) {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-}
+    }
 }

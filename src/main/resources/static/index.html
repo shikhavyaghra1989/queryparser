@@ -20,33 +20,36 @@
         function submitRequest(){
                 localStorage.setItem('query', query.getValue());
                 localStorage.setItem('database', $("[name='database']:checked").val());
+                localStorage.setItem('databaseType', $("[name='databaseType']:checked").val());
+                const databaseType = $("[name='databaseType']:checked").val()
                 $.ajax({
-                type: "POST",
+                    type: "POST",
 <!--                url: "http:// ec2-3-142-184-53.us-east-2.compute.amazonaws.com:8080/api/query",-->
-                url: "http://localhost:8080/api/query",
-                contentType: "application/json",
-                dataType: "json",
-                data: JSON.stringify({
-                    query: query.getValue(),
-                    database: $("[name='database']:checked").val()
-                 }),
-                success: function(response){
-                   if(Array.isArray(response)) {
-                        if(response.length > 10000){
-                            const new_array  = response.slice(0, 10000)
-                            localStorage.setItem( 'response_data', JSON.stringify(new_array) );
-                        }
-                        else {
-                             localStorage.setItem( 'response_data', JSON.stringify(response) );
-                        }
-                        window.location.href="result.html";
-                   } else {
-                      alert(response)
-                   }
-                },
-                error: function(response) {
-                   alert(JSON.stringify(response.responseText));
-                }
+                    url: databaseType == "MongoDB" ? "http://localhost:8082/api/query" :"http://localhost:8081/api/query",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        query: query.getValue(),
+                        database: $("[name='database']:checked").val(),
+                        databaseType: $("[name='databaseType']:checked").val()
+                     }),
+                    success: function(response){
+                       if(Array.isArray(response)) {
+                            if(response.length > 10000){
+                                const new_array  = response.slice(0, 10000)
+                                localStorage.setItem( 'response_data', JSON.stringify(new_array) );
+                            }
+                            else {
+                                 localStorage.setItem( 'response_data', JSON.stringify(response) );
+                            }
+                            window.location.href="result.html";
+                       } else {
+                          alert(response)
+                       }
+                    },
+                    error: function(response) {
+                       alert(JSON.stringify(response.responseText));
+                    }
             });
         }
     </script>
@@ -87,12 +90,27 @@
     <div class="row">
         <div style="text-align: center;">
             <div class="databases-switch-inline text-center">
-                <input class="databases-switch-input" type="radio" name="database" id="SwitchOption1" value="MySQL server" checked>
+                <input class="databases-switch-input" type="radio" name="databaseType" id="SwitchOption1" value="MySQL server" checked>
                 <label class="databases-switch-label" for="SwitchOption1">MySQL server</label>
 
-                <input class="databases-switch-input" type="radio" name="database" id="SwitchOption2" value="Redshift" >
+                <input class="databases-switch-input" type="radio" name="databaseType" id="SwitchOption2" value="Redshift" >
                 <label class="databases-switch-label" for="SwitchOption2">Redshift</label>
 
+                <input class="databases-switch-input" type="radio" name="databaseType" id="SwitchOption3" value="MongoDB" >
+                <label class="databases-switch-label" for="SwitchOption2">MongoDB</label>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div style="text-align: center;">
+            <div class="databases-switch-inline text-center">
+                <input class="databases-switch-input" type="radio" name="database" id="database1" value="instacart" checked>
+                <label class="databases-switch-label" for="SwitchOption1">Instacart</label>
+
+                <input class="databases-switch-input" type="radio" name="database" id="database2" value="Adnimerge" >
+                <label class="databases-switch-label" for="SwitchOption2">Adnimerge</label>
             </div>
         </div>
     </div>
