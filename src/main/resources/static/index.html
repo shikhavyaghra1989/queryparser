@@ -50,8 +50,10 @@
                     error: function(response) {
                        alert(JSON.stringify(response.responseText));
                     }
+
             });
         }
+        var cart=[];
     </script>
     <title>Document</title>
 </head>
@@ -117,6 +119,14 @@
 
     <div class="row" style="padding-right: 50px;padding-bottom: 5px;padding-left: 50px;">
     <textarea name ='query'  id='query' rows = 4 cols= 50 ></textarea>
+        <script>
+         function logs(button){
+	        var mod = localStorage.getItem('query');
+            cart.push(mod);
+            cart.push("||")
+	        alert(cart);
+       };
+    </script>
     <script>
        var query = CodeMirror.fromTextArea(
            document.getElementById('query'),{
@@ -138,6 +148,7 @@
         <div class="buttons-inline text-center">
             <button type="submit" class="btn btn-dark" onclick="submitRequest()">Submit</button>
             <button type="reset" class="btn btn-dark" onclick="this.blur();">Reset</button>
+            <button class="btn btn-dark"  onClick="logs(query)">Last Query</button>
         </div>
     </div>
 </div>
