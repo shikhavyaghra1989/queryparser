@@ -69,7 +69,14 @@
                 var divShowData = document.getElementById('showData');
                 divShowData.innerHTML = "";
                 divShowData.appendChild(table);
-                $("#dataTable").dataTable();
+
+                $("#dataTable").dataTable({
+                    scrollY: 300,
+                    scrollX: true,
+                    scroller: true
+                });
+
+
                 endTime = new Date().getTime();
                 var timeDiff = endTime-startTime;
                 mseconds = Math.round(timeDiff);
@@ -241,7 +248,8 @@
 	</script>
 </head>
 <body onload="myFunction()">
-<div class="container" style="background-color:#F4F4F4">
+<div class="container" style="padding-right: 60px;padding-bottom: 20px;padding-left: 60px;">
+<!--<div class="container" style="background-color:#F4F4F4">-->
     <div class="Project-group row" style="background-color:#282C35">
         <h1 class="h2 text-center" style="color:#ffffff">CS 527 Project</h1>
         <h4 class="h4 text-center" style="color:#ffffff">Created by</h4>
@@ -271,7 +279,7 @@
         </div>
         <div class="row" style="padding-right: 60px;padding-bottom: 20px;padding-left: 60px;">
             <table border="1" class="table table-bordered table-striped col-sm-15" id="dataTable"
-                   style="text-align: center;">
+                   style="text-align: center;width:100%;overflow-x:scroll;">
                 <thead class="thead-dark" id = "dThead"></thead>
 
                 <tbody id ="dataTableBody"></tbody>
@@ -282,5 +290,6 @@
             <p id='showData'></p>
             <p id='msg'></p>
         </div>
+
 </body>
 </html>
